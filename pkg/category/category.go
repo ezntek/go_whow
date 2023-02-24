@@ -31,18 +31,23 @@ type Category struct {
 	color color.Color `toml:"color"`
 }
 
+func (c Category) SPrettyPrint() string {
+	return fmt.Sprintf("%s\n", c.color.Sprintf(" %s ", c.name))
+}
+
 func (c Category) PrettyPrint() {
-	fmt.Printf("%s", c.color.Sprintf(" %s ", c.name))
+	fmt.Print(c.SPrettyPrint())
 }
 
 type CategoryTree struct {
 	categories []Category `toml:"categories"`
 }
 
-func NewCategory(name string, color color.Color) *Category {
+func NewCategory(name string, clr *color.Color) *Category {
+	clr.Add(color.Bold)
 	return &Category{
 		name,
-		color,
+		*clr,
 	}
 }
 
@@ -52,7 +57,7 @@ func (ct CategoryTree) GetCategoryFromName(name string) *Category {
 			return &category
 		}
 	}
-	return NewCategory(name, *color.New(color.BgWhite))
+	return NewCategory(name, color.New(color.BgWhite))
 }
 
 func NewCategoryTree() *CategoryTree {
