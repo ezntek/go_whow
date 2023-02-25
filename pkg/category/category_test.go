@@ -3,12 +3,14 @@ package category_test
 import (
 	"testing"
 
+	color "github.com/ezntek/whow/internal/color"
 	category "github.com/ezntek/whow/pkg/category"
-	color "github.com/fatih/color"
 )
 
 func TestCategoryData(t *testing.T) {
-	category := category.NewCategory("MyTestCategory", color.New(color.BgRed))
-	t.Log("\033[1mTESTTT\033[0m")
+	clr := color.New(color.Red)
+	category := category.NewCategory("MyTestCategory", clr)
+
+	t.Log("TESTTT")
 	t.Log(category.SPrettyPrint())
 }

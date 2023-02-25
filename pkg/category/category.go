@@ -23,7 +23,7 @@ import (
 	"strings"
 
 	"github.com/BurntSushi/toml"
-	color "github.com/fatih/color"
+	color "github.com/ezntek/whow/internal/color"
 )
 
 type Category struct {
@@ -32,7 +32,7 @@ type Category struct {
 }
 
 func (c Category) SPrettyPrint() string {
-	return fmt.Sprintf("%s\n", c.color.Sprintf(" %s ", c.name))
+	return fmt.Sprintf("%s%s\n", c.color.Sprint("", "fore"), c.color.Sprintf(" %s ", "back", c.name))
 }
 
 func (c Category) PrettyPrint() {
@@ -43,11 +43,11 @@ type CategoryTree struct {
 	categories []Category `toml:"categories"`
 }
 
-func NewCategory(name string, clr *color.Color) *Category {
-	clr.Add(color.Bold)
+func NewCategory(name string, clr color.Color) *Category {
+	clr.MakeBold()
 	return &Category{
 		name,
-		*clr,
+		clr,
 	}
 }
 
@@ -57,7 +57,7 @@ func (ct CategoryTree) GetCategoryFromName(name string) *Category {
 			return &category
 		}
 	}
-	return NewCategory(name, color.New(color.BgWhite))
+	return NewCategory(name, color.New(color.White))
 }
 
 func NewCategoryTree() *CategoryTree {
